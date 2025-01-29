@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.route("/categories").get(triviaCTRL.readAllCategories);
 
-router.route("/categories/:category/questions")
+router.route("/categories/:category").get(triviaCTRL.readAllQuestions);
 
-router.route("/categories/:category/questions/:id");
+router.route("/categories/:category/:id");
 
 module.exports = router;
