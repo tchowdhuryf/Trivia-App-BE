@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db.js');
 
+//route imports
+const triviaRoutes = require('./routes/triviaRoutes.js');
+
 //setups
 const app = express();
 const PORT = 5000;
@@ -20,6 +23,13 @@ app.get('/', (req, res) => {
     res.send('Trivia App API');
 });
 
+//api routes
+app.use('/api/trivia', triviaRoutes);
+
+//catch all route
+app.get('*', (req, res) => {
+    res.send('404: Page not found');
+});
 
 //listener
 app.listen(PORT, () => {
