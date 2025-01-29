@@ -9,6 +9,9 @@ router
   .get(triviaCTRL.readAllQuestions)
   .post(triviaCTRL.createQuestion);
 
-router.route("/categories/:category/:id").get(triviaCTRL.readOneQuestion);
+router
+  .route("/categories/:category/:id")
+  .get(triviaCTRL.readOneQuestion)
+  .patch(triviaCTRL.updateQuestion);
 
 module.exports = router;
