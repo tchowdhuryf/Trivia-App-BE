@@ -1,13 +1,28 @@
 const Trivia = require("../models/triviaSchema.js");
 
-// Create a question
+// Create a question-----------------------------------------------------
 
-// Read all categories
+// Read all categories---------------------------------------------------
+async function readAllCategories(req, res) {
+  try {
+    const triviaData = await Trivia.findOne();
+    if (!triviaData) {
+      return res.status(404).json({ error: "No data found" });
+    }
 
-// Read all questions
+    const categories = triviaData.categories.map((cat) => cat.name);
+    res.json(categories);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 
-// Read one question
+// Read all questions----------------------------------------------------
 
-// Update a question
+// Read one question-----------------------------------------------------
 
-// Delete a question
+// Update a question-----------------------------------------------------
+
+// Delete a question-----------------------------------------------------
+
+module.exports = { readAllCategories };
