@@ -1,15 +1,11 @@
-const express = require('express');
-const triviaCTRL = require('../controllers/triviaControllers.js');
+const express = require("express");
+const triviaCTRL = require("../controllers/triviaControllers.js");
 const router = express.Router();
 
-router
-.route('/categories')
+router.route("/categories").get(triviaCTRL.readAllCategories);
 
-router
-.route('/questions/:category')
+router.route("/categories/:category/questions")
 
-router
-.route('/questions/:category/:id')
-
+router.route("/categories/:category/questions/:id");
 
 module.exports = router;
