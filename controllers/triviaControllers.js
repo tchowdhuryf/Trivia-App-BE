@@ -1,6 +1,42 @@
 const Trivia = require("../models/triviaSchema.js");
 
 // Create a question-----------------------------------------------------
+async function createQuestion(req, res) {
+  const { category } = req.params;
+  const { question, options, answer } = req.body;
+
+  try {
+    const triviaData = await Trivia.findOne({
+      "categories.name": category,
+    });
+
+    if (!triviaData) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    const selectedCategory = triviaData.categories.find(
+      (cat) => cat.name === category
+    );
+
+    if (!selectedCategory) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    const newQuestion = {
+      id: selectedCategory.questions.length + 1,
+      question,
+      options,
+      answer,
+    };
+
+    selectedCategory.questions.push(newQuestion);
+
+    await triviaData.save();
+    res.json(newQuestion);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 
 // Read all categories---------------------------------------------------
 async function readAllCategories(req, res) {
@@ -83,4 +119,4 @@ async function readOneQuestion(req, res) {
 
 // Delete a question-----------------------------------------------------
 
-module.exports = { readAllCategories, readAllQuestions, readOneQuestion };
+module.exports = { readAllCategories, readAllQuestions, readOneQuestion, createQuestion };
