@@ -1,3 +1,4 @@
+//import trivia schema
 const Trivia = require("../models/triviaSchema.js");
 
 // Create a question-----------------------------------------------------
@@ -163,6 +164,42 @@ async function updateQuestion(req, res) {
 
 // Delete a question-----------------------------------------------------
 //-----------------------------------------------------------------------
+async function deleteQuestion(req, res) {
+  const { category, id } = req.params;
+
+  try {
+    const triviaData = await Trivia.findOne({
+      "categories.name": category,
+    });
+
+    if (!triviaData) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    const selectedCategory = triviaData.categories.find(
+      (cat) => cat.name === category
+    );
+
+    if (!selectedCategory) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    const selectedQuestionIndex = selectedCategory.questions.findIndex(
+      (question) => question.id === Number(id)
+    );
+
+    if (selectedQuestionIndex === -1) {
+      return res.status(404).json({ error: "Question not found" });
+    }
+
+    selectedCategory.questions.splice(selectedQuestionIndex, 1);
+
+    await triviaData.save();
+    res.json({ message: "Question deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 
 module.exports = {
   readAllCategories,
@@ -170,4 +207,5 @@ module.exports = {
   readOneQuestion,
   createQuestion,
   updateQuestion,
+  deleteQuestion,
 };

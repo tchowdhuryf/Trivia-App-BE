@@ -12,6 +12,7 @@ router
 router
   .route("/categories/:category/:id")
   .get(triviaCTRL.readOneQuestion)
-  .patch(triviaCTRL.updateQuestion);
+  .patch(triviaCTRL.updateQuestion)
+  .delete(triviaCTRL.deleteQuestion);
 
 module.exports = router;
