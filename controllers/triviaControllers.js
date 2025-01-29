@@ -45,9 +45,42 @@ async function readAllQuestions(req, res) {
 }
 
 // Read one question-----------------------------------------------------
+async function readOneQuestion(req, res) {
+  const { category, id } = req.params;
+
+  try {
+    const triviaData = await Trivia.findOne({
+      "categories.name": category,
+    });
+
+    if (!triviaData) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    const selectedCategory = triviaData.categories.find(
+      (cat) => cat.name === category
+    );
+
+    if (!selectedCategory) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    const selectedQuestion = selectedCategory.questions.find(
+      (question) => question.id === Number(id)
+    );
+
+    if (!selectedQuestion) {
+      return res.status(404).json({ error: "Question not found" });
+    }
+
+    res.json(selectedQuestion);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 
 // Update a question-----------------------------------------------------
 
 // Delete a question-----------------------------------------------------
 
-module.exports = { readAllCategories, readAllQuestions };
+module.exports = { readAllCategories, readAllQuestions, readOneQuestion };

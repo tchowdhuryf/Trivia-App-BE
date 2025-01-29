@@ -6,6 +6,6 @@ router.route("/categories").get(triviaCTRL.readAllCategories);
 
 router.route("/categories/:category").get(triviaCTRL.readAllQuestions);
 
-router.route("/categories/:category/:id");
+router.route("/categories/:category/:id").get(triviaCTRL.readOneQuestion);
 
 module.exports = router;
