@@ -14,10 +14,10 @@ const CategorySchema = new mongoose.Schema({
   questions: { type: [QuestionSchema], required: true },
 });
 
-//Main Schema
-const MainSchema = new mongoose.Schema({
+//Trivia Schema
+const TriviaSchema = new mongoose.Schema({
   categories: { type: [CategorySchema], required: true },
 });
 
-//Model linked explicitly to the "questions" collection
-module.exports = mongoose.model("Question", MainSchema, "questions");
+//Model linked explicitly to the "trivias" collection
+module.exports = mongoose.model("Trivia", TriviaSchema, "trivias");

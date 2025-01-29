@@ -1,4 +1,4 @@
-const Trivia = require("../models/questionsSchema.js");
+const Trivia = require("../models/triviaSchema.js");
 
 // Create a question
 
